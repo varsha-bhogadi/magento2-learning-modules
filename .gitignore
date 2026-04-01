@@ -1,0 +1,19 @@
+# Ignore everything by default
+/*
+
+# Track specific directories
+!.gitignore
+!README.md
+!app/
+app/*
+!app/code/
+app/code/*
+!app/code/Vendor/
+
+# Ignore IDE and OS files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
