@@ -1,0 +1,25 @@
+<?php
+/** @var \Vendor\Routing\Block\Adminhtml\Custom $block */
+$routeInfo = $block->getRouteInfo();
+?>
+
+<div class="admin-custom-routing">
+    <h2><?= $block->escapeHtml($block->getAdminMessage()) ?></h2>
+
+    <table class="data-table">
+        <tbody>
+            <tr>
+                <th><?= __('Route ID') ?></th>
+                <td><?= $block->escapeHtml($routeInfo['route_id']) ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Controller') ?></th>
+                <td><?= $block->escapeHtml($routeInfo['controller']) ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Action') ?></th>
+                <td><?= $block->escapeHtml($routeInfo['action']) ?></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

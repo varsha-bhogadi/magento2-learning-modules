@@ -1,0 +1,14 @@
+<?php
+/** @var \Vendor\Routing\Block\Frontend\Custom $block */
+?>
+
+<div class="custom-routing-page">
+
+    <p><strong>Name:</strong>
+        <?= $block->escapeHtml($block->getInternName()) ?>
+    </p>
+
+    <p><strong>Current URL:</strong>
+        <?= $block->escapeHtml($block->getCurrentUrl()) ?>
+    </p>
+</div>
