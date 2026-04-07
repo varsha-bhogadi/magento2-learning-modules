@@ -4,21 +4,21 @@ $routeInfo = $block->getRouteInfo();
 ?>
 
 <div class="admin-custom-routing">
-    <h2><?= $block->escapeHtml($block->getAdminMessage()) ?></h2>
+    <h2><?= $escaper->escapeHtml($block->getAdminMessage()) ?></h2>
 
     <table class="data-table">
         <tbody>
             <tr>
                 <th><?= __('Route ID') ?></th>
-                <td><?= $block->escapeHtml($routeInfo['route_id']) ?></td>
+                <td><?= $escaper->escapeHtml($routeInfo['route_id']) ?></td>
             </tr>
             <tr>
                 <th><?= __('Controller') ?></th>
-                <td><?= $block->escapeHtml($routeInfo['controller']) ?></td>
+                <td><?= $escaper->escapeHtml($routeInfo['controller']) ?></td>
             </tr>
             <tr>
                 <th><?= __('Action') ?></th>
-                <td><?= $block->escapeHtml($routeInfo['action']) ?></td>
+                <td><?= $escaper->escapeHtml($routeInfo['action']) ?></td>
             </tr>
         </tbody>
     </table>

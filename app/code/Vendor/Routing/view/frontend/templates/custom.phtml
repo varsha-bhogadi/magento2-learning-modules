@@ -5,10 +5,10 @@
 <div class="custom-routing-page">
 
     <p><strong>Name:</strong>
-        <?= $block->escapeHtml($block->getInternName()) ?>
+        <?= $escaper->escapeHtml($block->getInternName()) ?>
     </p>
 
     <p><strong>Current URL:</strong>
-        <?= $block->escapeHtml($block->getCurrentUrl()) ?>
+        <?= $escaper->escapeHtml($block->getCurrentUrl()) ?>
     </p>
 </div>
