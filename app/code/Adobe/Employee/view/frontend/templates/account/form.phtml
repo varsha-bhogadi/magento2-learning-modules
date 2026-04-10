@@ -1,0 +1,40 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Adobe\Employee\Block\Account\EmployeeForm */
+
+$employee = $block->getEmployee();
+$entityId = $employee ? $employee->getEntityId() : null;
+?>
+
+<h2><?= $entityId ? 'Edit Employee' : 'Add Employee' ?></h2>
+
+<form action="<?= $block->getFormAction() ?>" method="post">
+
+    <?php if ($entityId): ?>
+        <input type="hidden" name="entity_id" value="<?= $entityId ?>"/>
+    <?php endif; ?>
+
+    <label>Name:</label>
+    <input type="text" name="name" value="<?= $employee ? $employee->getName() : '' ?>" required/>
+
+    <label>Designation:</label>
+    <input type="text" name="designation" value="<?= $employee ? $employee->getDesignation() : '' ?>"/>
+
+    <label>Joining Date:</label>
+    <input type="date" name="joining_date" value="<?= $employee ? $employee->getJoiningDate() : '' ?>"/>
+
+    <label>Address:</label>
+    <textarea name="address"><?= $employee ? $employee->getAddress() : '' ?></textarea>
+
+    <label>Status:</label>
+    <select name="status">
+        <option value="1" <?= ($employee && $employee->getStatus()) ? 'selected' : '' ?>>Active</option>
+        <option value="0" <?= ($employee && !$employee->getStatus()) ? 'selected' : '' ?>>Inactive</option>
+    </select>
+
+    <button type="submit">Save</button>
+</form>

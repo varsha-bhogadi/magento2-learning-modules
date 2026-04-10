@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Adobe::employee" title="Employee Management" sortOrder="100">
+                    <resource id="Adobe::employee_view" title="View Employees"/>
+                    <resource id="Adobe::employee_save" title="Save Employees"/>
+                    <resource id="Adobe::employee_delete" title="Delete Employees"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

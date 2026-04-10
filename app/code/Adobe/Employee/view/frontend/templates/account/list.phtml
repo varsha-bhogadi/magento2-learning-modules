@@ -1,0 +1,45 @@
+<?php
+$employees = $block->getEmployees();
+?>
+
+<h2>Employee List</h2>
+
+<a href="<?= $block->getUrl('employee/account/edit') ?>"
+   style="display:inline-block; margin-bottom:10px; padding:8px 12px; background:#1979c3; color:#fff; text-decoration:none;">
+    + Add Employee
+</a>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Designation</th>
+        <th>Joining Date</th>
+        <th>Address</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    <?php foreach ($employees as $employee): ?>
+        <tr>
+            <td><?= $employee->getEntityId() ?></td>
+            <td><?= $employee->getName() ?></td>
+            <td><?= $employee->getDesignation() ?></td>
+            <td><?= $employee->getJoiningDate() ?></td>
+            <td><?= $employee->getAddress() ?></td>
+            <td><?= $employee->getStatus() ? 'Active' : 'Inactive' ?></td>
+            <td>
+                <a href="<?= $block->getUrl('employee/account/edit', ['entity_id' => $employee->getEntityId()]) ?>">
+                    Edit
+                </a>
+                |
+                <form action="<?= $block->getUrl('employee/account/delete') ?>" method="post" style="display:inline;">
+                    <input type="hidden" name="entity_id" value="<?= $employee->getEntityId() ?>">
+                    <button type="submit" onclick="return confirm('Are you sure?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

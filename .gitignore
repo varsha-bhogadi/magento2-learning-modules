@@ -9,6 +9,7 @@ app/*
 !app/code/
 app/code/*
 !app/code/Vendor/
+!app/code/Adobe/
 
 # Ignore IDE and OS files
 .DS_Store
@@ -17,3 +18,4 @@ app/code/*
 *.swp
 *.swo
 Thumbs.db
+app/code/Vendor/
