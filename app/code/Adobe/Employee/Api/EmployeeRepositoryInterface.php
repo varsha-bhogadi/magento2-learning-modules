@@ -1,53 +1,29 @@
 <?php
-declare(strict_types=1);
-
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
+declare(strict_types=1);
+
 namespace Adobe\Employee\Api;
 
 use Adobe\Employee\Api\Data\EmployeeInterface;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 
 interface EmployeeRepositoryInterface
 {
     /**
-     * Save Employee
-     *
-     * @param EmployeeInterface $employee
-     * @return EmployeeInterface
-     * @throws LocalizedException
+     * Save employee
      */
     public function save(EmployeeInterface $employee): EmployeeInterface;
 
     /**
-     * Get Employee by ID
-     *
-     * @param int $entityId
-     * @return EmployeeInterface
-     * @throws NoSuchEntityException
+     * Get employee by ID
      */
-    public function getById(int $entityId): EmployeeInterface;
+    public function getById(int $id): EmployeeInterface;
 
     /**
-     * Delete Employee
-     *
-     * @param EmployeeInterface $employee
-     * @return bool
-     * @throws LocalizedException
+     * Delete employee
      */
     public function delete(EmployeeInterface $employee): bool;
-
-    /**
-     * Delete Employee by ID
-     *
-     * @param int $entityId
-     * @return bool
-     * @throws NoSuchEntityException
-     * @throws LocalizedException
-     */
-    public function deleteById(int $entityId): bool;
 }

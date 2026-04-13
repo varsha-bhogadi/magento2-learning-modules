@@ -7,8 +7,11 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
     <preference for="Adobe\Employee\Api\EmployeeRepositoryInterface"
                 type="Adobe\Employee\Model\EmployeeRepository"/>
+
     <preference for="Adobe\Employee\Api\Data\EmployeeInterface"
                 type="Adobe\Employee\Model\Employee"/>
+
 </config>

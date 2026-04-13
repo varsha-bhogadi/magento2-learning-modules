@@ -7,24 +7,37 @@
 -->
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
-    <table name="adobeemployee_employee" resource="default" engine="innodb" comment="Employee Table">
-        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
-        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Employee Name"/>
-        <column xsi:type="date" name="joining_date" nullable="true" comment="Joining Date"/>
-        <column xsi:type="varchar" name="designation" nullable="true" length="255" comment="Designation"/>
+
+    <table name="adobe_employee" resource="default" engine="innodb" comment="Employee Table">
+
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Name"/>
+
+        <column xsi:type="varchar" name="gender" nullable="false" length="10" comment="Gender"/>
+
+        <column xsi:type="varchar" name="designation" nullable="false" length="255" comment="Designation"/>
+
+        <column xsi:type="date" name="joining_date" nullable="false" comment="Joining Date"/>
+
         <column xsi:type="text" name="address" nullable="true" comment="Address"/>
-        <column xsi:type="smallint" name="status" unsigned="true" nullable="false" default="1" comment="Status"/>
-        <column xsi:type="int" name="customer_id" unsigned="true" nullable="true" comment="Customer ID"/>
+
+        <column xsi:type="smallint" name="status" nullable="false" default="1" comment="Status"/>
+
+        <column xsi:type="text" name="hobbies" nullable="true" comment="Hobbies (comma separated)"/>
+
         <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
-        <column xsi:type="timestamp" name="updated_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="true" comment="Updated At"/>
+
+        <column xsi:type="timestamp" name="updated_at"
+                nullable="false"
+                default="CURRENT_TIMESTAMP"
+                on_update="true"
+                comment="Updated At"/>
+
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="entity_id"/>
         </constraint>
-        <constraint xsi:type="foreign" referenceId="ADOBEEMPLOYEE_EMPLOYEE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID"
-                    table="adobeemployee_employee" column="customer_id"
-                    referenceTable="customer_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
-        <index referenceId="ADOBEEMPLOYEE_EMPLOYEE_NAME" indexType="btree">
-            <column name="name"/>
-        </index>
+
     </table>
+
 </schema>

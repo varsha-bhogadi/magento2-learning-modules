@@ -4,37 +4,123 @@
  * See COPYING.txt for license details.
  */
 
-/** @var $block \Adobe\Employee\Block\Account\EmployeeForm */
+/** @var \Adobe\Employee\Block\Account\EmployeeForm $block */
 
-$employee = $block->getEmployee();
-$entityId = $employee ? $employee->getEntityId() : null;
+$employee = $block->getCurrentEmployee();
+
+$hobbies = [];
+
+if ($employee && $employee->getHobbies()) {
+    $hobbies = explode(',', $employee->getHobbies());
+}
 ?>
 
-<h2><?= $entityId ? 'Edit Employee' : 'Add Employee' ?></h2>
+<form action="<?= $block->escapeUrl($block->getSaveUrl()) ?>"
+      method="post"
+      id="employee-form">
 
-<form action="<?= $block->getFormAction() ?>" method="post">
+    <?= $block->getBlockHtml('formkey') ?>
 
-    <?php if ($entityId): ?>
-        <input type="hidden" name="entity_id" value="<?= $entityId ?>"/>
-    <?php endif; ?>
+    <input type="hidden"
+           name="entity_id"
+           value="<?= $employee ? (int)$employee->getId() : '' ?>" />
 
-    <label>Name:</label>
-    <input type="text" name="name" value="<?= $employee ? $employee->getName() : '' ?>" required/>
+    <fieldset class="fieldset">
 
-    <label>Designation:</label>
-    <input type="text" name="designation" value="<?= $employee ? $employee->getDesignation() : '' ?>"/>
+        <!-- NAME -->
+        <div class="field required">
+            <label><?= __('Name') ?></label>
+            <input type="text"
+                   name="name"
+                   value="<?= $employee ? $block->escapeHtml($employee->getName()) : '' ?>"
+                   required />
+        </div>
 
-    <label>Joining Date:</label>
-    <input type="date" name="joining_date" value="<?= $employee ? $employee->getJoiningDate() : '' ?>"/>
+        <!-- GENDER -->
+        <div class="field required">
+            <label><?= __('Gender') ?></label><br/>
 
-    <label>Address:</label>
-    <textarea name="address"><?= $employee ? $employee->getAddress() : '' ?></textarea>
+            <label>
+                <input type="radio"
+                       name="gender"
+                       value="Male"
+                       <?= ($employee && $employee->getGender() === 'Male') ? 'checked' : '' ?> />
+                <?= __('Male') ?>
+            </label>
 
-    <label>Status:</label>
-    <select name="status">
-        <option value="1" <?= ($employee && $employee->getStatus()) ? 'selected' : '' ?>>Active</option>
-        <option value="0" <?= ($employee && !$employee->getStatus()) ? 'selected' : '' ?>>Inactive</option>
-    </select>
+            <label style="margin-left:15px;">
+                <input type="radio"
+                       name="gender"
+                       value="Female"
+                       <?= ($employee && $employee->getGender() === 'Female') ? 'checked' : '' ?> />
+                <?= __('Female') ?>
+            </label>
+        </div>
 
-    <button type="submit">Save</button>
+        <!-- DESIGNATION -->
+        <div class="field required">
+            <label><?= __('Designation') ?></label>
+            <input type="text"
+                   name="designation"
+                   value="<?= $employee ? $block->escapeHtml($employee->getDesignation()) : '' ?>"
+                   required />
+        </div>
+
+        <!-- JOINING DATE -->
+        <div class="field required">
+            <label><?= __('Joining Date') ?></label>
+            <input type="date"
+                   name="joining_date"
+                   value="<?= $employee ? $block->escapeHtml($employee->getJoiningDate()) : '' ?>"
+                   required />
+        </div>
+
+        <!-- ADDRESS -->
+        <div class="field">
+            <label><?= __('Address') ?></label>
+            <textarea name="address"><?= $employee ? $block->escapeHtml($employee->getAddress()) : '' ?></textarea>
+        </div>
+
+        <!-- STATUS -->
+        <div class="field">
+            <label><?= __('Status') ?></label>
+            <select name="status">
+                <option value="1"
+                    <?= ($employee && (int)$employee->getStatus() === 1) ? 'selected' : '' ?>>
+                    <?= __('Enabled') ?>
+                </option>
+
+                <option value="0"
+                    <?= ($employee && (int)$employee->getStatus() === 0) ? 'selected' : '' ?>>
+                    <?= __('Disabled') ?>
+                </option>
+            </select>
+        </div>
+
+        <!-- HOBBIES -->
+        <div class="field">
+            <label><?= __('Hobbies') ?></label><br/>
+
+            <?php
+            $options = ['Reading', 'Sports', 'Music', 'Travel'];
+            foreach ($options as $option):
+            ?>
+                <label style="margin-right:15px;">
+                    <input type="checkbox"
+                           name="hobbies[]"
+                           value="<?= $option ?>"
+                           <?= in_array($option, $hobbies) ? 'checked' : '' ?> />
+                    <?= __($option) ?>
+                </label>
+            <?php endforeach; ?>
+        </div>
+
+    </fieldset>
+
+    <div class="actions-toolbar">
+        <button type="submit" class="action primary">
+            <span><?= __('Save Employee') ?></span>
+        </button>
+    </div>
+
 </form>

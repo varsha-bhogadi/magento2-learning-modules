@@ -1,45 +1,106 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Adobe\Employee\Block\Account\EmployeeList $block */
+
 $employees = $block->getEmployees();
 ?>
 
-<h2>Employee List</h2>
+<div class="employee-account-wrapper">
 
-<a href="<?= $block->getUrl('employee/account/edit') ?>"
-   style="display:inline-block; margin-bottom:10px; padding:8px 12px; background:#1979c3; color:#fff; text-decoration:none;">
-    + Add Employee
-</a>
+    <div class="page-title-wrapper">
+        <h1 class="page-title">
+            <span><?= $block->escapeHtml(__('My Employees')) ?></span>
+        </h1>
 
-<table border="1" cellpadding="10">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Designation</th>
-        <th>Joining Date</th>
-        <th>Address</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
-
-    <?php foreach ($employees as $employee): ?>
-        <tr>
-            <td><?= $employee->getEntityId() ?></td>
-            <td><?= $employee->getName() ?></td>
-            <td><?= $employee->getDesignation() ?></td>
-            <td><?= $employee->getJoiningDate() ?></td>
-            <td><?= $employee->getAddress() ?></td>
-            <td><?= $employee->getStatus() ? 'Active' : 'Inactive' ?></td>
-            <td>
-                <a href="<?= $block->getUrl('employee/account/edit', ['entity_id' => $employee->getEntityId()]) ?>">
-                    Edit
+        <div class="actions-toolbar">
+            <div class="primary">
+                <a class="action primary add"
+                   href="<?= $block->escapeUrl($block->getUrl('employee/account/create')) ?>">
+                    <span><?= $block->escapeHtml(__('Add Employee')) ?></span>
                 </a>
-                |
-                <form action="<?= $block->getUrl('employee/account/delete') ?>" method="post" style="display:inline;">
-                    <input type="hidden" name="entity_id" value="<?= $employee->getEntityId() ?>">
-                    <button type="submit" onclick="return confirm('Are you sure?')">
-                        Delete
-                    </button>
-                </form>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+            </div>
+        </div>
+    </div>
+
+    <?php if ($employees && $employees->getSize()): ?>
+        <div class="table-wrapper employee-table">
+
+            <table class="data table table-order-items history">
+
+                <thead>
+                <tr>
+                    <th><?= $block->escapeHtml(__('ID')) ?></th>
+                    <th><?= $block->escapeHtml(__('Name')) ?></th>
+                    <th><?= $block->escapeHtml(__('Designation')) ?></th>
+                    <th><?= $block->escapeHtml(__('Address')) ?></th>
+                    <th><?= $block->escapeHtml(__('Status')) ?></th>
+                    <th><?= $block->escapeHtml(__('Hobbies')) ?></th>
+                    <th><?= $block->escapeHtml(__('Actions')) ?></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <?php foreach ($employees as $employee): ?>
+
+                    <?php
+                    $hobbies = $employee->getHobbies();
+                    $hobbyList = $hobbies ? explode(',', $hobbies) : [];
+                    ?>
+
+                    <tr>
+                        <td><?= (int)$employee->getId() ?></td>
+
+                        <td><?= $block->escapeHtml($employee->getName()) ?></td>
+
+                        <td><?= $block->escapeHtml($employee->getDesignation()) ?></td>
+
+                        <td><?= $block->escapeHtml($employee->getAddress()) ?></td>
+
+                        <td>
+                            <?= (int)$employee->getStatus()
+                                ? $block->escapeHtml(__('Enabled'))
+                                : $block->escapeHtml(__('Disabled')) ?>
+                        </td>
+
+                        <td>
+                            <?= $block->escapeHtml(implode(', ', $hobbyList)) ?>
+                        </td>
+
+                        <td class="actions">
+
+                            <!-- EDIT -->
+                            <a href="<?= $block->escapeUrl(
+                                $block->getUrl('employee/account/edit', ['id' => $employee->getId()])
+                            ) ?>">
+                                <?= $block->escapeHtml(__('Edit')) ?>
+                            </a>
+
+                            <!-- DELETE -->
+                            <a href="<?= $block->escapeUrl(
+                                $block->getUrl('employee/account/delete', ['id' => $employee->getId()])
+                            ) ?>"
+                               onclick="return confirm('Are you sure you want to delete this employee?')">
+                                <?= $block->escapeHtml(__('Delete')) ?>
+                            </a>
+
+                        </td>
+                    </tr>
+
+                <?php endforeach; ?>
+                </tbody>
+
+            </table>
+
+        </div>
+
+    <?php else: ?>
+        <div class="message info empty">
+            <span><?= $block->escapeHtml(__('No employees found.')) ?></span>
+        </div>
+    <?php endif; ?>
+
+</div>

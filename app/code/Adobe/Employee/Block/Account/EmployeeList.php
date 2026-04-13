@@ -1,29 +1,42 @@
 <?php
-declare(strict_types=1);
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
+
+declare(strict_types=1);
+
 namespace Adobe\Employee\Block\Account;
 
 use Magento\Framework\View\Element\Template;
-use Adobe\Employee\Api\EmployeeRepositoryInterface;
+use Adobe\Employee\Model\ResourceModel\Employee\CollectionFactory;
 
 class EmployeeList extends Template
 {
-    private EmployeeRepositoryInterface $repository;
+    /**
+     * @var CollectionFactory
+     */
+    private CollectionFactory $collectionFactory;
 
     public function __construct(
         Template\Context $context,
-        EmployeeRepositoryInterface $repository,
+        CollectionFactory $collectionFactory,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->repository = $repository;
+        $this->collectionFactory = $collectionFactory;
     }
 
-    public function getEmployees(): array
+    /**
+     * Get employee collection
+     */
+    public function getEmployees()
     {
-        return $this->repository->getList();
+        $collection = $this->collectionFactory->create();
+
+        // Optional improvements (safe defaults)
+        $collection->setOrder('entity_id', 'DESC');
+
+        return $collection;
     }
 }
