@@ -5,6 +5,7 @@
  */
 
 /** @var \Adobe\Employee\Block\Account\EmployeeList $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 $employees = $block->getEmployees();
 ?>
@@ -13,14 +14,16 @@ $employees = $block->getEmployees();
 
     <div class="page-title-wrapper">
         <h1 class="page-title">
-            <span><?= $block->escapeHtml(__('My Employees')) ?></span>
+            <span><?= $escaper->escapeHtml(__('My Employees')) ?></span>
         </h1>
 
         <div class="actions-toolbar">
             <div class="primary">
                 <a class="action primary add"
-                   href="<?= $block->escapeUrl($block->getUrl('employee/account/create')) ?>">
-                    <span><?= $block->escapeHtml(__('Add Employee')) ?></span>
+                   href="<?= $escaper->escapeUrl(
+                       $block->getUrl('employee/account/create')
+                   ) ?>">
+                    <span><?= $escaper->escapeHtml(__('Add Employee')) ?></span>
                 </a>
             </div>
         </div>
@@ -28,78 +31,79 @@ $employees = $block->getEmployees();
 
     <?php if ($employees && $employees->getSize()): ?>
         <div class="table-wrapper employee-table">
-
             <table class="data table table-order-items history">
-
                 <thead>
                 <tr>
-                    <th><?= $block->escapeHtml(__('ID')) ?></th>
-                    <th><?= $block->escapeHtml(__('Name')) ?></th>
-                    <th><?= $block->escapeHtml(__('Designation')) ?></th>
-                    <th><?= $block->escapeHtml(__('Address')) ?></th>
-                    <th><?= $block->escapeHtml(__('Status')) ?></th>
-                    <th><?= $block->escapeHtml(__('Hobbies')) ?></th>
-                    <th><?= $block->escapeHtml(__('Actions')) ?></th>
+                    <th><?= $escaper->escapeHtml(__('ID')) ?></th>
+                    <th><?= $escaper->escapeHtml(__('Name')) ?></th>
+                    <th><?= $escaper->escapeHtml(__('Designation')) ?></th>
+                    <th><?= $escaper->escapeHtml(__('Address')) ?></th>
+                    <th><?= $escaper->escapeHtml(__('Status')) ?></th>
+                    <th><?= $escaper->escapeHtml(__('Hobbies')) ?></th>
+                    <th><?= $escaper->escapeHtml(__('Actions')) ?></th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <?php foreach ($employees as $employee): ?>
-
-                    <?php
-                    $hobbies = $employee->getHobbies();
-                    $hobbyList = $hobbies ? explode(',', $hobbies) : [];
-                    ?>
-
                     <tr>
-                        <td><?= (int)$employee->getId() ?></td>
+                        <td><?= (int) $employee->getId() ?></td>
 
-                        <td><?= $block->escapeHtml($employee->getName()) ?></td>
+                        <td><?= $escaper->escapeHtml(
+                            $employee->getName()
+                        ) ?></td>
 
-                        <td><?= $block->escapeHtml($employee->getDesignation()) ?></td>
+                        <td><?= $escaper->escapeHtml(
+                            $employee->getDesignation()
+                        ) ?></td>
 
-                        <td><?= $block->escapeHtml($employee->getAddress()) ?></td>
+                        <td><?= $escaper->escapeHtml(
+                            $employee->getAddress()
+                        ) ?></td>
 
                         <td>
-                            <?= (int)$employee->getStatus()
-                                ? $block->escapeHtml(__('Enabled'))
-                                : $block->escapeHtml(__('Disabled')) ?>
+                            <?= $employee->getStatus()
+                                ? $escaper->escapeHtml(__('Enabled'))
+                                : $escaper->escapeHtml(__('Disabled')) ?>
                         </td>
 
-                        <td>
-                            <?= $block->escapeHtml(implode(', ', $hobbyList)) ?>
-                        </td>
+                        <td><?= $escaper->escapeHtml(
+                            $employee->getHobbies()
+                        ) ?></td>
 
                         <td class="actions">
-
-                            <!-- EDIT -->
-                            <a href="<?= $block->escapeUrl(
-                                $block->getUrl('employee/account/edit', ['id' => $employee->getId()])
+                            <a href="<?= $escaper->escapeUrl(
+                                $block->getUrl(
+                                    'employee/account/edit',
+                                    ['id' => $employee->getId()]
+                                )
                             ) ?>">
-                                <?= $block->escapeHtml(__('Edit')) ?>
+                                <?= $escaper->escapeHtml(__('Edit')) ?>
                             </a>
 
-                            <!-- DELETE -->
-                            <a href="<?= $block->escapeUrl(
-                                $block->getUrl('employee/account/delete', ['id' => $employee->getId()])
+                            &nbsp;|&nbsp;
+
+                            <a href="<?= $escaper->escapeUrl(
+                                $block->getUrl(
+                                    'employee/account/delete',
+                                    ['id' => $employee->getId()]
+                                )
                             ) ?>"
-                               onclick="return confirm('Are you sure you want to delete this employee?')">
-                                <?= $block->escapeHtml(__('Delete')) ?>
+                               onclick="return confirm(
+                                   'Are you sure you want to delete this employee?'
+                               )">
+                                <?= $escaper->escapeHtml(__('Delete')) ?>
                             </a>
-
                         </td>
                     </tr>
-
                 <?php endforeach; ?>
                 </tbody>
 
             </table>
-
         </div>
-
     <?php else: ?>
         <div class="message info empty">
-            <span><?= $block->escapeHtml(__('No employees found.')) ?></span>
+            <span><?= $escaper->escapeHtml(__('No employees found.')) ?></span>
         </div>
     <?php endif; ?>
 

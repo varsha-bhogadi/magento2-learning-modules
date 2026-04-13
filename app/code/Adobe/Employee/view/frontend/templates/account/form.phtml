@@ -7,15 +7,14 @@
 /** @var \Adobe\Employee\Block\Account\EmployeeForm $block */
 
 $employee = $block->getCurrentEmployee();
-
 $hobbies = [];
 
 if ($employee && $employee->getHobbies()) {
-    $hobbies = explode(',', $employee->getHobbies());
+    $hobbies = explode(',', (string)$employee->getHobbies());
 }
 ?>
 
-<form action="<?= $block->escapeUrl($block->getSaveUrl()) ?>"
+<form action="<?= $escaper->escapeUrl($block->getSaveUrl()) ?>"
       method="post"
       id="employee-form">
 
@@ -29,97 +28,116 @@ if ($employee && $employee->getHobbies()) {
 
         <!-- NAME -->
         <div class="field required">
-            <label><?= __('Name') ?></label>
+            <label><?= $escaper->escapeHtml(__('Name')) ?></label>
             <input type="text"
                    name="name"
-                   value="<?= $employee ? $block->escapeHtml($employee->getName()) : '' ?>"
+                   value="<?= $employee ? $escaper->escapeHtml($employee->getName()) : '' ?>"
                    required />
         </div>
 
         <!-- GENDER -->
         <div class="field required">
-            <label><?= __('Gender') ?></label><br/>
+            <label><?= $escaper->escapeHtml(__('Gender')) ?></label><br/>
 
             <label>
                 <input type="radio"
                        name="gender"
                        value="Male"
-                       <?= ($employee && $employee->getGender() === 'Male') ? 'checked' : '' ?> />
-                <?= __('Male') ?>
+                    <?= ($employee && $employee->getGender() === 'Male') ? 'checked' : '' ?> />
+                <?= $escaper->escapeHtml(__('Male')) ?>
             </label>
 
             <label style="margin-left:15px;">
                 <input type="radio"
                        name="gender"
                        value="Female"
-                       <?= ($employee && $employee->getGender() === 'Female') ? 'checked' : '' ?> />
-                <?= __('Female') ?>
+                    <?= ($employee && $employee->getGender() === 'Female') ? 'checked' : '' ?> />
+                <?= $escaper->escapeHtml(__('Female')) ?>
             </label>
         </div>
 
         <!-- DESIGNATION -->
         <div class="field required">
-            <label><?= __('Designation') ?></label>
+            <label><?= $escaper->escapeHtml(__('Designation')) ?></label>
             <input type="text"
                    name="designation"
-                   value="<?= $employee ? $block->escapeHtml($employee->getDesignation()) : '' ?>"
+                   value="<?= $employee ? $escaper->escapeHtml($employee->getDesignation()) : '' ?>"
                    required />
         </div>
 
         <!-- JOINING DATE -->
         <div class="field required">
-            <label><?= __('Joining Date') ?></label>
+            <label><?= $escaper->escapeHtml(__('Joining Date')) ?></label>
             <input type="date"
                    name="joining_date"
-                   value="<?= $employee ? $block->escapeHtml($employee->getJoiningDate()) : '' ?>"
+                   value="<?= $employee ? $escaper->escapeHtml($employee->getJoiningDate()) : '' ?>"
                    required />
         </div>
 
         <!-- ADDRESS -->
         <div class="field">
-            <label><?= __('Address') ?></label>
-            <textarea name="address"><?= $employee ? $block->escapeHtml($employee->getAddress()) : '' ?></textarea>
+            <label><?= $escaper->escapeHtml(__('Address')) ?></label>
+            <textarea name="address"><?= $employee ? $escaper->escapeHtml($employee->getAddress()) : '' ?></textarea>
         </div>
 
         <!-- STATUS -->
         <div class="field">
-            <label><?= __('Status') ?></label>
+            <label><?= $escaper->escapeHtml(__('Status')) ?></label>
             <select name="status">
                 <option value="1"
                     <?= ($employee && (int)$employee->getStatus() === 1) ? 'selected' : '' ?>>
-                    <?= __('Enabled') ?>
+                    <?= $escaper->escapeHtml(__('Enabled')) ?>
                 </option>
 
                 <option value="0"
                     <?= ($employee && (int)$employee->getStatus() === 0) ? 'selected' : '' ?>>
-                    <?= __('Disabled') ?>
+                    <?= $escaper->escapeHtml(__('Disabled')) ?>
                 </option>
             </select>
         </div>
 
         <!-- HOBBIES -->
         <div class="field">
-            <label><?= __('Hobbies') ?></label><br/>
+            <label><?= $escaper->escapeHtml(__('Hobbies')) ?></label><br/>
 
-            <?php
-            $options = ['Reading', 'Sports', 'Music', 'Travel'];
-            foreach ($options as $option):
-            ?>
-                <label style="margin-right:15px;">
-                    <input type="checkbox"
-                           name="hobbies[]"
-                           value="<?= $option ?>"
-                           <?= in_array($option, $hobbies) ? 'checked' : '' ?> />
-                    <?= __($option) ?>
-                </label>
-            <?php endforeach; ?>
+            <label>
+                <input type="checkbox"
+                       name="hobbies[]"
+                       value="Reading"
+                    <?= in_array('Reading', $hobbies) ? 'checked' : '' ?> />
+                <?= $escaper->escapeHtml(__('Reading')) ?>
+            </label>
+
+            <label style="margin-left:15px;">
+                <input type="checkbox"
+                       name="hobbies[]"
+                       value="Sports"
+                    <?= in_array('Sports', $hobbies) ? 'checked' : '' ?> />
+                <?= $escaper->escapeHtml(__('Sports')) ?>
+            </label>
+
+            <label style="margin-left:15px;">
+                <input type="checkbox"
+                       name="hobbies[]"
+                       value="Music"
+                    <?= in_array('Music', $hobbies) ? 'checked' : '' ?> />
+                <?= $escaper->escapeHtml(__('Music')) ?>
+            </label>
+
+            <label style="margin-left:15px;">
+                <input type="checkbox"
+                       name="hobbies[]"
+                       value="Travel"
+                    <?= in_array('Travel', $hobbies) ? 'checked' : '' ?> />
+                <?= $escaper->escapeHtml(__('Travel')) ?>
+            </label>
         </div>
 
     </fieldset>
 
     <div class="actions-toolbar">
         <button type="submit" class="action primary">
-            <span><?= __('Save Employee') ?></span>
+            <span><?= $escaper->escapeHtml(__('Save Employee')) ?></span>
         </button>
     </div>
 
