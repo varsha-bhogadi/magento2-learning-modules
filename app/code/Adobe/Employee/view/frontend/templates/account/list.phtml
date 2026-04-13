@@ -37,6 +37,7 @@ $employees = $block->getEmployees();
                     <th><?= $escaper->escapeHtml(__('ID')) ?></th>
                     <th><?= $escaper->escapeHtml(__('Name')) ?></th>
                     <th><?= $escaper->escapeHtml(__('Designation')) ?></th>
+                    <th><?= $escaper->escapeHtml(__('Joining Date')) ?></th>
                     <th><?= $escaper->escapeHtml(__('Address')) ?></th>
                     <th><?= $escaper->escapeHtml(__('Status')) ?></th>
                     <th><?= $escaper->escapeHtml(__('Hobbies')) ?></th>
@@ -57,6 +58,9 @@ $employees = $block->getEmployees();
                             $employee->getDesignation()
                         ) ?></td>
 
+                        <td><?= $escaper->escapeHtml(
+                            $employee->getJoiningDate()
+                        ) ?></td>
                         <td><?= $escaper->escapeHtml(
                             $employee->getAddress()
                         ) ?></td>

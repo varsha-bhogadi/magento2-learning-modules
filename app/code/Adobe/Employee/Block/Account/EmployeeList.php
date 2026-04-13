@@ -35,7 +35,7 @@ class EmployeeList extends Template
         $collection = $this->collectionFactory->create();
 
         // Optional improvements (safe defaults)
-        $collection->setOrder('entity_id', 'DESC');
+        $collection->setOrder('entity_id', 'ASC');
 
         return $collection;
     }
