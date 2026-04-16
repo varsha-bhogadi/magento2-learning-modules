@@ -13,5 +13,10 @@
 
     <preference for="Adobe\Employee\Api\Data\EmployeeInterface"
                 type="Adobe\Employee\Model\Employee"/>
+    <type name="Adobe\Employee\Block\Adminhtml\Edit\Button\Save">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\Backend\Block\Widget\Context\Proxy</argument>
+        </arguments>
+    </type>            
 
 </config>

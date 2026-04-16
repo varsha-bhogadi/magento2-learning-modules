@@ -10,10 +10,12 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Adobe::employee" title="Employee Management" sortOrder="100">
-                    <resource id="Adobe::employee_view" title="View Employees"/>
-                    <resource id="Adobe::employee_save" title="Save Employees"/>
-                    <resource id="Adobe::employee_delete" title="Delete Employees"/>
+                <resource id="Adobe_Employee::employee"
+                          title="Employee"
+                          sortOrder="90">
+                    <resource id="Adobe_Employee::manage_employee"
+                              title="Manage Employees"
+                              sortOrder="10"/>
                 </resource>
             </resource>
         </resources>
