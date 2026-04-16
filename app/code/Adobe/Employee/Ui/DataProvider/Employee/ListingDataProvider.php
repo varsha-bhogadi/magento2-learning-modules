@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Adobe\Employee\Ui\DataProvider\Employee;
 
 use Adobe\Employee\Model\ResourceModel\Employee\CollectionFactory;
+use Magento\Framework\Api\Filter;
 use Magento\Ui\DataProvider\AbstractDataProvider;
 
 /**
@@ -16,11 +17,6 @@ use Magento\Ui\DataProvider\AbstractDataProvider;
  */
 class ListingDataProvider extends AbstractDataProvider
 {
-    /**
-     * @var \Magento\Framework\Data\Collection
-     */
-    protected $collection;
-
     /**
      * Constructor
      *
@@ -40,6 +36,44 @@ class ListingDataProvider extends AbstractDataProvider
         array $data = []
     ) {
         $this->collection = $collectionFactory->create();
-        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+        $this->collection->setOrder('entity_id', 'ASC');
+        parent::__construct(
+            $name,
+            $primaryFieldName,
+            $requestFieldName,
+            $meta,
+            $data
+        );
+    }
+
+    /**
+     * Add fulltext filter support
+     *
+     * @param Filter $filter
+     * @return void
+     */
+    public function addFilter(Filter $filter): void
+    {
+        if ($filter->getField() === 'fulltext') {
+            $value = $filter->getValue();
+            $this->collection->addFieldToFilter(
+                [
+                    'name',
+                    'gender',
+                    'designation',
+                    'address',
+                    'hobbies'
+                ],
+                [
+                    ['like' => "%{$value}%"],
+                    ['like' => "%{$value}%"],
+                    ['like' => "%{$value}%"],
+                    ['like' => "%{$value}%"],
+                    ['like' => "%{$value}%"]
+                ]
+            );
+        } else {
+            parent::addFilter($filter);
+        }
     }
 }
