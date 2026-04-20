@@ -172,20 +172,7 @@
             <formElements>
                 <select>
                     <settings>
-                        <options>
-                            <option name="0" xsi:type="array">
-                                <item name="value" xsi:type="string">1</item>
-                                <item name="label" xsi:type="string" translate="true">
-                                    Active
-                                </item>
-                            </option>
-                            <option name="1" xsi:type="array">
-                                <item name="value" xsi:type="string">0</item>
-                                <item name="label" xsi:type="string" translate="true">
-                                    Inactive
-                                </item>
-                            </option>
-                        </options>
+                        <options class="Adobe\Employee\Model\Source\Status"/>
                     </settings>
                 </select>
             </formElements>

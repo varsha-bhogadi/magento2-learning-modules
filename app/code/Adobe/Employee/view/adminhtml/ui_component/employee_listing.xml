@@ -126,10 +126,12 @@
             </settings>
         </column>
 
-        <column name="status">
+        <column name="status" component="Magento_Ui/js/grid/columns/select">
             <settings>
                 <filter>select</filter>
                 <label translate="true">Status</label>
+                <dataType>select</dataType>
+                <options class="Adobe\Employee\Model\Source\Status"/>
             </settings>
         </column>
 
