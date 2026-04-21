@@ -1,19 +1,20 @@
-# Ignore everything by default
+# Ignore everything
 /*
 
-# Track specific directories
+# Allow important root files
 !.gitignore
 !README.md
+!composer.json
+
+# Allow custom Magento code
 !app/
 app/*
 !app/code/
-app/code/*
-!app/code/Vendor/
+!app/code/**
 
-# Ignore IDE and OS files
+# Ignore IDE files
 .DS_Store
 .idea/
 .vscode/
 *.swp
-*.swo
 Thumbs.db

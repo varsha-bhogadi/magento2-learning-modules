@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+<!-- validate xml using xsd -->
+    <event name="controller_action_predispatch">
+        <observer name="unit1_test"
+                  instance="MyVendor\MyModule\Observer\Log"
+                  shared="false" />
+    </event>
+
+<event name="catalog_product_save_after">
+    <observer name="product_save"
+              instance="MyVendor\MyModule\Observer\ProductSave"
+              />
+</event>
+
+</config>

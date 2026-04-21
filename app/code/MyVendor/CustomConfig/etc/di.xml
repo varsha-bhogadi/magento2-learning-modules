@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="MyVendor\CustomConfig\Model\Config\SchemaLocator"
+                 type="Magento\Framework\Config\GenericSchemaLocator">
+        <arguments>
+            <argument name="schema" xsi:type="string">custom_config.xsd</argument>
+            <argument name="perFileSchema" xsi:type="string">custom_config.xsd</argument>
+            <argument name="moduleName" xsi:type="string">MyVendor_CustomConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MyVendor\CustomConfig\Model\Config\Reader"
+                 type="Magento\Framework\Config\Reader\Filesystem">
+        <arguments>
+            <argument name="fileName" xsi:type="string">custom_config.xml</argument>
+            <argument name="defaultScope" xsi:type="string">global</argument>
+            <argument name="schemaLocator" xsi:type="object">MyVendor\CustomConfig\Model\Config\SchemaLocator</argument>
+            <argument name="converter" xsi:type="object">MyVendor\CustomConfig\Model\Config\Converter</argument>
+            <argument name="idAttributes" xsi:type="array">
+                <item name="/config/welcome_message" xsi:type="string">store_id</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="MyVendor\CustomConfig\Model\Config">
+        <arguments>
+            <argument name="reader" xsi:type="object">MyVendor\CustomConfig\Model\Config\Reader</argument>
+            <argument name="cacheId" xsi:type="string">welcome_messages</argument>
+        </arguments>
+    </type>
+
+     <type name="Magento\Customer\Api\CustomerRepositoryInterface">
+    <plugin name="myvendor_customer_save_plugin" 
+            type="MyVendor\CustomConfig\Plugin\CustomerSavePlugin"/>
+</type>
+
+</config>
