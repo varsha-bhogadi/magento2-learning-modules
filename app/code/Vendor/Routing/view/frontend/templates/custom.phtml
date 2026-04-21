@@ -1,0 +1,18 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var \Vendor\Routing\Block\Frontend\Custom $block */
+?>
+
+<div class="custom-routing-page">
+
+    <p><strong>Name:</strong>
+        <?= $escaper->escapeHtml($block->getInternName()) ?>
+    </p>
+
+    <p><strong>Current URL:</strong>
+        <?= $escaper->escapeHtml($block->getCurrentUrl()) ?>
+    </p>
+</div>

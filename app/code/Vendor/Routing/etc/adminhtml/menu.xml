@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Vendor_Routing::main"
+             title="Custom Routing"
+             module="Vendor_Routing"
+             sortOrder="100"
+             resource="Vendor_Routing::main"/>
+        <add id="Vendor_Routing::manage"
+             title="Manage Routing"
+             module="Vendor_Routing"
+             sortOrder="10"
+             parent="Vendor_Routing::main"
+             action="customadmin/index/index"
+             resource="Vendor_Routing::config"/>
+    </menu>
+</config>
