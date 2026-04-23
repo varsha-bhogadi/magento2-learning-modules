@@ -8,94 +8,156 @@ declare(strict_types=1);
 
 namespace Adobe\Employee\Api\Data;
 
+/**
+ * Employee Interface
+ */
 interface EmployeeInterface
 {
-    public const ENTITY_ID = 'entity_id';
-    public const NAME = 'name';
-    public const GENDER = 'gender';
-    public const DESIGNATION = 'designation';
+    /**
+     * Constants for field names
+     */
+    public const ENTITY_ID    = 'entity_id';
+    public const NAME         = 'name';
+    public const GENDER       = 'gender';
+    public const DESIGNATION  = 'designation';
     public const JOINING_DATE = 'joining_date';
-    public const ADDRESS = 'address';
-    public const STATUS = 'status';
-    public const HOBBIES = 'hobbies';
+    public const ADDRESS      = 'address';
+    public const STATUS       = 'status';
+    public const HOBBIES      = 'hobbies';
+    public const CREATED_AT   = 'created_at';
+    public const UPDATED_AT   = 'updated_at';
 
     /**
-     * Get ID
+     * Get entity ID
+     *
+     * @return int|null
      */
-    public function getId();
+    public function getId(): mixed;
 
     /**
-     * Set ID
+     * Set entity ID
+     *
+     * @param int $entityId
+     * @return $this
      */
-    public function setId($id);
+    public function setId(mixed $entityId): static;
 
     /**
-     * Get Name
+     * Get name
+     *
+     * @return string|null
      */
-    public function getName();
+    public function getName(): ?string;
 
     /**
-     * Set Name
+     * Set name
+     *
+     * @param string $name
+     * @return $this
      */
-    public function setName($name);
+    public function setName(string $name): static;
 
     /**
-     * Get Gender
+     * Get gender
+     *
+     * @return string|null
      */
-    public function getGender();
+    public function getGender(): ?string;
 
     /**
-     * Set Gender
+     * Set gender
+     *
+     * @param string $gender
+     * @return $this
      */
-    public function setGender($gender);
+    public function setGender(string $gender): static;
 
     /**
-     * Get Designation
+     * Get designation
+     *
+     * @return string|null
      */
-    public function getDesignation();
+    public function getDesignation(): ?string;
 
     /**
-     * Set Designation
+     * Set designation
+     *
+     * @param string $designation
+     * @return $this
      */
-    public function setDesignation($designation);
+    public function setDesignation(string $designation): static;
 
     /**
-     * Get Joining Date
+     * Get joining date
+     *
+     * @return string|null
      */
-    public function getJoiningDate();
+    public function getJoiningDate(): ?string;
 
     /**
-     * Set Joining Date
+     * Set joining date
+     *
+     * @param string $joiningDate
+     * @return $this
      */
-    public function setJoiningDate($date);
+    public function setJoiningDate(string $joiningDate): static;
 
     /**
-     * Get Address
+     * Get address
+     *
+     * @return string|null
      */
-    public function getAddress();
+    public function getAddress(): ?string;
 
     /**
-     * Set Address
+     * Set address
+     *
+     * @param string $address
+     * @return $this
      */
-    public function setAddress($address);
+    public function setAddress(string $address): static;
 
     /**
-     * Get Status
+     * Get status
+     *
+     * @return int|null
      */
-    public function getStatus();
+    public function getStatus(): ?int;
 
     /**
-     * Set Status
+     * Set status
+     *
+     * @param int $status
+     * @return $this
      */
-    public function setStatus($status);
+    public function setStatus(int $status): static;
 
     /**
-     * Get Hobbies
+     * Get hobbies
+     *
+     * @return string|null
      */
-    public function getHobbies();
+    public function getHobbies(): ?string;
 
     /**
-     * Set Hobbies
+     * Set hobbies
+     *
+     * @param string $hobbies
+     * @return $this
      */
-    public function setHobbies($hobbies);
+    public function setHobbies(string $hobbies): static;
+
+    /**
+     * Get created at
+     *
+     * @return string|null
+     */
+    public function getCreatedAt(): ?string;
+
+    /**
+     * Get updated at
+     *
+     * @return string|null
+     */
+    public function getUpdatedAt(): ?string;
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!-- Get All Employees -->
+    <route url="/V1/employees" method="GET">
+        <service class="Adobe\Employee\Api\EmployeeRepositoryInterface"
+                 method="getList"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- Get Employee By ID -->
+    <route url="/V1/employees/:entityId" method="GET">
+        <service class="Adobe\Employee\Api\EmployeeRepositoryInterface"
+                 method="getById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- Create Employee -->
+    <route url="/V1/employees" method="POST">
+        <service class="Adobe\Employee\Api\EmployeeRepositoryInterface"
+                 method="save"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- Update Employee -->
+    <route url="/V1/employees/:entityId" method="PUT">
+        <service class="Adobe\Employee\Api\EmployeeRepositoryInterface"
+                 method="update"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- Delete Employee -->
+    <route url="/V1/employees/:entityId" method="DELETE">
+        <service class="Adobe\Employee\Api\EmployeeRepositoryInterface"
+                 method="deleteById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+</routes>

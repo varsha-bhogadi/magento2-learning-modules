@@ -1,0 +1,33 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Adobe\Employee\Block\Frontend\EmployeeListing $block */
+?>
+
+<div id="employee-listing-wrapper"
+     data-bind="scope: 'employeeListing'"
+     class="employee-listing-wrapper">
+
+    <!-- KnockoutJS template rendered here -->
+    <div data-bind="template: {
+        name: 'Adobe_Employee/employee-listing'
+    }"></div>
+
+</div>
+
+<script type="text/x-magento-init">
+{
+    "#employee-listing-wrapper": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "employeeListing": {
+                    "component": "Adobe_Employee/js/employee-listing"
+                }
+            }
+        }
+    }
+}
+</script>

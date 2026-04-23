@@ -1,0 +1,238 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<div class="employee-listing-container">
+
+    <!-- Success Message -->
+    <div class="message success"
+         data-bind="visible: successMessage,
+                    text: successMessage">
+    </div>
+
+    <!-- Error Message -->
+    <div class="message error"
+         data-bind="visible: errorMessage,
+                    text: errorMessage">
+    </div>
+
+    <!-- Add New Button -->
+    <div class="employee-actions">
+        <button class="action primary"
+                data-bind="click: showAddForm,
+                           visible: !showForm()">
+            Add New Employee
+        </button>
+    </div>
+
+    <!-- Loading -->
+    <div class="employee-loading"
+         data-bind="visible: isLoading">
+        <span>Loading employees...</span>
+    </div>
+
+    <!-- Employee Table -->
+    <div data-bind="visible: !isLoading() && !showForm()">
+
+        <!-- No Records -->
+        <div data-bind="visible: employees().length === 0">
+            <p>No employees found.</p>
+        </div>
+
+        <!-- Records Table -->
+        <table class="data table"
+               data-bind="visible: employees().length > 0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Designation</th>
+                    <th>Joining Date</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Hobbies</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: employees">
+                <tr>
+                    <td data-bind="text: id"></td>
+                    <td data-bind="text: name"></td>
+                    <td data-bind="text: gender"></td>
+                    <td data-bind="text: designation"></td>
+                    <td data-bind="text: joining_date"></td>
+                    <td data-bind="text: address"></td>
+                    <td data-bind="text: parseInt(status) === 1
+                        ? 'Active' : 'Inactive'">
+                    </td>
+                    <td data-bind="text: hobbies ? hobbies : 'N/A'">
+                    </td>
+                    <td>
+                        <button class="action edit"
+                                data-bind="click: $parent.showEditForm
+                                    .bind($parent)">
+                            Edit
+                        </button>
+                        <button class="action delete"
+                                data-bind="click: $parent.deleteEmployee
+                                    .bind($parent)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- Add / Edit Form -->
+    <div class="employee-form"
+         data-bind="visible: showForm">
+
+        <h3 data-bind="text: isEditMode()
+            ? 'Edit Employee'
+            : 'Add New Employee'">
+        </h3>
+
+        <form>
+
+            <!-- Name -->
+            <div class="field">
+                <label class="label">
+                    <span>Name</span>
+                </label>
+                <div class="control">
+                    <input type="text"
+                           class="input-text"
+                           data-bind="value: name"
+                           placeholder="Enter name"/>
+                </div>
+            </div>
+
+            <!-- Gender -->
+            <div class="field">
+                <label class="label">
+                    <span>Gender</span>
+                </label>
+                <div class="control">
+                    <select class="select"
+                            data-bind="value: gender">
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Designation -->
+            <div class="field">
+                <label class="label">
+                    <span>Designation</span>
+                </label>
+                <div class="control">
+                    <input type="text"
+                           class="input-text"
+                           data-bind="value: designation"
+                           placeholder="Enter designation"/>
+                </div>
+            </div>
+
+            <!-- Joining Date -->
+            <div class="field">
+                <label class="label">
+                    <span>Joining Date</span>
+                </label>
+                <div class="control">
+                    <input type="date"
+                           class="input-text"
+                           data-bind="value: joiningDate"/>
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div class="field">
+                <label class="label">
+                    <span>Address</span>
+                </label>
+                <div class="control">
+                    <textarea class="textarea"
+                              data-bind="value: address"
+                              placeholder="Enter address">
+                    </textarea>
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div class="field">
+                <label class="label">
+                    <span>Status</span>
+                </label>
+                <div class="control">
+                    <select class="select"
+                            data-bind="value: status">
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Hobbies Checkboxes -->
+            <div class="field">
+                <label class="label">
+                    <span>Hobbies</span>
+                </label>
+                <div class="control">
+                    <!-- ko foreach: hobbiesOptions -->
+                    <div class="hobby-option"
+                         style="display:inline-block;
+                                margin-right:15px;
+                                margin-bottom:10px;">
+                        <input type="checkbox"
+                               data-bind="
+                                   attr: {
+                                       id: 'hobby_' + value,
+                                       value: value
+                                   },
+                                   event: {
+                                       change: function(data, event) {
+                                           $parent.onHobbyChange(
+                                               data, event
+                                           );
+                                       }
+                                   },
+                                   checked: $parent.selectedHobbies,
+                                   checkedValue: value
+                               "/>
+                        <label data-bind="
+                            attr: { for: 'hobby_' + value },
+                            text: label">
+                        </label>
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+
+            <!-- Form Buttons -->
+            <div class="actions-toolbar">
+                <button type="button"
+                        class="action primary"
+                        data-bind="click: saveEmployee">
+                    Save Employee
+                </button>
+                <button type="button"
+                        class="action secondary"
+                        data-bind="click: cancelForm">
+                    Cancel
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
