@@ -8,144 +8,214 @@ declare(strict_types=1);
 
 namespace Adobe\Employee\Model;
 
-use Magento\Framework\Model\AbstractModel;
 use Adobe\Employee\Api\Data\EmployeeInterface;
+use Adobe\Employee\Model\ResourceModel\Employee as EmployeeResource;
+use Magento\Framework\Model\AbstractModel;
 
+/**
+ * Employee Model
+ */
 class Employee extends AbstractModel implements EmployeeInterface
 {
     /**
      * Initialize resource model
+     *
+     * @return void
      */
-    protected function _construct()
+    protected function _construct(): void
     {
-        $this->_init(\Adobe\Employee\Model\ResourceModel\Employee::class);
+        $this->_init(EmployeeResource::class);
     }
 
     /**
-     * Get ID
+     * Get entity ID
+     *
+     * @return int|null
      */
-    public function getId()
+    public function getId(): mixed
     {
-        return $this->getData(self::ENTITY_ID);
+        return $this->getData(self::ENTITY_ID)
+            ? (int) $this->getData(self::ENTITY_ID)
+            : null;
     }
 
     /**
-     * Set ID
+     * Set entity ID
+     *
+     * @param mixed $entityId
+     * @return $this
      */
-    public function setId($id)
+    public function setId(mixed $entityId): static
     {
-        return $this->setData(self::ENTITY_ID, $id);
+        return $this->setData(self::ENTITY_ID, $entityId);
     }
 
     /**
-     * Get Name
+     * Get name
+     *
+     * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->getData(self::NAME);
     }
 
     /**
-     * Set Name
+     * Set name
+     *
+     * @param string $name
+     * @return $this
      */
-    public function setName($name)
+    public function setName(string $name): static
     {
         return $this->setData(self::NAME, $name);
     }
 
     /**
-     * Get Gender
+     * Get gender
+     *
+     * @return string|null
      */
-    public function getGender()
+    public function getGender(): ?string
     {
         return $this->getData(self::GENDER);
     }
 
     /**
-     * Set Gender
+     * Set gender
+     *
+     * @param string $gender
+     * @return $this
      */
-    public function setGender($gender)
+    public function setGender(string $gender): static
     {
         return $this->setData(self::GENDER, $gender);
     }
 
     /**
-     * Get Designation
+     * Get designation
+     *
+     * @return string|null
      */
-    public function getDesignation()
+    public function getDesignation(): ?string
     {
         return $this->getData(self::DESIGNATION);
     }
 
     /**
-     * Set Designation
+     * Set designation
+     *
+     * @param string $designation
+     * @return $this
      */
-    public function setDesignation($designation)
+    public function setDesignation(string $designation): static
     {
         return $this->setData(self::DESIGNATION, $designation);
     }
 
     /**
-     * Get Joining Date
+     * Get joining date
+     *
+     * @return string|null
      */
-    public function getJoiningDate()
+    public function getJoiningDate(): ?string
     {
         return $this->getData(self::JOINING_DATE);
     }
 
     /**
-     * Set Joining Date
+     * Set joining date
+     *
+     * @param string $joiningDate
+     * @return $this
      */
-    public function setJoiningDate($date)
+    public function setJoiningDate(string $joiningDate): static
     {
-        return $this->setData(self::JOINING_DATE, $date);
+        return $this->setData(self::JOINING_DATE, $joiningDate);
     }
 
     /**
-     * Get Address
+     * Get address
+     *
+     * @return string|null
      */
-    public function getAddress()
+    public function getAddress(): ?string
     {
         return $this->getData(self::ADDRESS);
     }
 
     /**
-     * Set Address
+     * Set address
+     *
+     * @param string $address
+     * @return $this
      */
-    public function setAddress($address)
+    public function setAddress(string $address): static
     {
         return $this->setData(self::ADDRESS, $address);
     }
 
     /**
-     * Get Status
+     * Get status
+     *
+     * @return int|null
      */
-    public function getStatus()
+    public function getStatus(): ?int
     {
-        return $this->getData(self::STATUS);
+        return $this->getData(self::STATUS) !== null
+            ? (int) $this->getData(self::STATUS)
+            : null;
     }
 
     /**
-     * Set Status
+     * Set status
+     *
+     * @param int $status
+     * @return $this
      */
-    public function setStatus($status)
+    public function setStatus(int $status): static
     {
         return $this->setData(self::STATUS, $status);
     }
 
     /**
-     * Get Hobbies
+     * Get hobbies
+     *
+     * @return string|null
      */
-    public function getHobbies()
+    public function getHobbies(): ?string
     {
-        return $this->getData(self::HOBBIES);
+        return $this->getData(self::HOBBIES) ?? '';
     }
 
     /**
-     * Set Hobbies
+     * Set hobbies
+     *
+     * @param string $hobbies
+     * @return $this
      */
-    public function setHobbies($hobbies)
+    public function setHobbies(string $hobbies): static
     {
         return $this->setData(self::HOBBIES, $hobbies);
+    }
+
+    /**
+     * Get created at
+     *
+     * @return string|null
+     */
+    public function getCreatedAt(): ?string
+    {
+        return $this->getData(self::CREATED_AT);
+    }
+
+    /**
+     * Get updated at
+     *
+     * @return string|null
+     */
+    public function getUpdatedAt(): ?string
+    {
+        return $this->getData(self::UPDATED_AT);
     }
 }

@@ -13,9 +13,9 @@
 
     <body>
         <referenceContainer name="content">
-            <block class="Adobe\Employee\Block\Account\EmployeeList"
-                   name="employee.account.list"
-                   template="Adobe_Employee::account/list.phtml"/>
+            <block class="Adobe\Employee\Block\Frontend\EmployeeListing"
+                   name="employee.listing"
+                   template="Adobe_Employee::frontend/employee-listing.phtml"/>
         </referenceContainer>
     </body>
 
