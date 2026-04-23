@@ -1,0 +1,17 @@
+<div id="custom-ko" data-bind="scope:'helloComponent'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<script type="text/x-magento-init">
+{
+    "#custom-ko": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "helloComponent": {
+                    "component": "KOVendor_KnockoutDemo/js/view/hello"
+                }
+            }
+        }
+    }
+}
+</script>
