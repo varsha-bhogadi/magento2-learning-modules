@@ -1,0 +1,148 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+ 
+<!--
+/**
+ * Employee Form Template
+ */
+-->
+
+<div class="employee-form"
+     data-bind="visible: showForm">
+
+    <fieldset class="fieldset">
+
+        <legend class="legend">
+            <span data-bind="
+                text: id() ? 'Edit Employee' : 'Add Employee'
+            "></span>
+        </legend>
+
+        <!-- Name -->
+        <div class="field required">
+            <label class="label">
+                <span>Name</span>
+            </label>
+
+            <div class="control">
+                <input type="text"
+                       class="input-text"
+                       data-bind="value: name" />
+            </div>
+        </div>
+
+        <!-- Gender -->
+        <div class="field">
+            <label class="label">
+                <span>Gender</span>
+            </label>
+
+            <div class="control">
+                <select data-bind="value: gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Joining Date -->
+        <div class="field">
+            <label class="label">
+                <span>Joining Date</span>
+            </label>
+
+            <div class="control">
+                <input type="date"
+                       class="input-text"
+                       data-bind="value: joiningDate" />
+            </div>
+        </div>
+
+        <!-- Designation -->
+        <div class="field">
+            <label class="label">
+                <span>Designation</span>
+            </label>
+
+            <div class="control">
+                <input type="text"
+                       class="input-text"
+                       data-bind="value: designation" />
+            </div>
+        </div>
+
+        <!-- Address -->
+        <div class="field">
+            <label class="label">
+                <span>Address</span>
+            </label>
+
+            <div class="control">
+                <textarea data-bind="value: address"></textarea>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="field">
+            <label class="label">
+                <span>Status</span>
+            </label>
+
+            <div class="control">
+                <select data-bind="value: status">
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Hobbies -->
+        <div class="field">
+            <label class="label">
+                <span>Hobbies</span>
+            </label>
+
+            <div class="control">
+
+                <!-- ko foreach: allHobbies -->
+                <label class="choice">
+                    <input type="checkbox"
+                           data-bind="
+                               checked: $parent.hobbies,
+                               attr: { value: $data }
+                           " />
+                    <span data-bind="text: $data"></span>
+                </label>
+                <!-- /ko -->
+
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions-toolbar">
+
+            <div class="primary">
+                <button type="button"
+                        class="action primary"
+                        data-bind="click: saveEmployee">
+                    <span>Save</span>
+                </button>
+            </div>
+
+            <div class="secondary">
+                <button type="button"
+                        class="action secondary"
+                        data-bind="click: cancelForm">
+                    <span>Cancel</span>
+                </button>
+            </div>
+
+        </div>
+
+    </fieldset>
+
+</div>

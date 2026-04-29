@@ -1,0 +1,80 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<div class="employee-list">
+
+    <div class="table-wrapper">
+
+        <table class="data table table-data-items">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Joining Date</th>
+                    <th>Designation</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Hobbies</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody data-bind="foreach: employees">
+
+                <tr>
+                    <td data-bind="text: entity_id"></td>
+                    <td data-bind="text: name"></td>
+                    <td data-bind="text: gender"></td>
+                    <td data-bind="text: joining_date"></td>
+                    <td data-bind="text: designation"></td>
+                    <td data-bind="text: address"></td>
+                    <td data-bind="text: status == 1 ? 'Active' : 'Inactive'"></td>
+                    <td data-bind="text: hobbies"></td>
+
+                    <td>
+                        <button type="button"
+                                data-bind="click: function(){ $parent.editEmployee($data);}">
+                            Edit
+                        </button>
+
+                        <button type="button"
+                                data-bind="click: function(){ $parent.deleteEmployee($data);}">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ✅ SIMPLE WORKING PAGINATION -->
+    <div style="margin-top:20px;">
+
+        <button type="button"
+                data-bind="click: previousPage,
+                           enable: currentPage() > 1">
+            Previous
+        </button>
+
+        <span data-bind="
+            text: 'Page ' + currentPage() + ' of ' + lastPage()
+        "></span>
+
+        <button type="button"
+                data-bind="click: nextPage,
+                           enable: currentPage() < lastPage()">
+            Next
+        </button>
+
+    </div>
+
+</div>
