@@ -1,17 +1,21 @@
-<?php
+ <?php
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-
-/** @var \Adobe\Employee\Block\Frontend\EmployeeListing $block */
+/** @var \Magento\Framework\View\Element\Template $block */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get(\Magento\Customer\Model\Session::class);
 ?>
 
 <div id="employee-listing-wrapper"
-     data-bind="scope: 'employeeListing'"
-     class="employee-listing-wrapper">
+     data-bind="scope: 'employeeListing'">
 
-    <!-- KnockoutJS template rendered here -->
+    <script>
+        window.isCustomerLoggedIn =
+            <?= $customerSession->isLoggedIn() ? 'true' : 'false' ?>;
+    </script>
+
     <div data-bind="template: {
         name: 'Adobe_Employee/employee-listing'
     }"></div>
