@@ -1,132 +1,96 @@
 <?php
+declare(strict_types=1);
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
-declare(strict_types=1);
-
 namespace Adobe\Employee\Model;
 
-use Adobe\Employee\Api\Data\EmployeeInterface;
 use Adobe\Employee\Api\EmployeeRepositoryInterface;
-use Adobe\Employee\Model\ResourceModel\Employee as EmployeeResource;
+use Adobe\Employee\Api\Data\EmployeeInterface;
+use Adobe\Employee\Model\ResourceModel\Employee as ResourceEmployee;
 use Adobe\Employee\Model\ResourceModel\Employee\CollectionFactory;
-use Magento\Framework\Exception\CouldNotDeleteException;
-use Magento\Framework\Exception\CouldNotSaveException;
+use Adobe\Employee\Model\EmployeeFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\CouldNotDeleteException;
 
 /**
  * Employee Repository
  */
 class EmployeeRepository implements EmployeeRepositoryInterface
 {
-    /**
-     * @var EmployeeResource
-     */
-    private EmployeeResource $resource;
-
-    /**
-     * @var EmployeeFactory
-     */
+    private ResourceEmployee $resource;
     private EmployeeFactory $employeeFactory;
-
-    /**
-     * @var CollectionFactory
-     */
     private CollectionFactory $collectionFactory;
 
-    /**
-     * Constructor
-     *
-     * @param EmployeeResource $resource
-     * @param EmployeeFactory $employeeFactory
-     * @param CollectionFactory $collectionFactory
-     */
     public function __construct(
-        EmployeeResource $resource,
+        ResourceEmployee $resource,
         EmployeeFactory $employeeFactory,
         CollectionFactory $collectionFactory
     ) {
-        $this->resource          = $resource;
-        $this->employeeFactory   = $employeeFactory;
+        $this->resource = $resource;
+        $this->employeeFactory = $employeeFactory;
         $this->collectionFactory = $collectionFactory;
     }
 
     /**
-     * Save employee
-     *
-     * @param EmployeeInterface $employee
-     * @return EmployeeInterface
-     * @throws CouldNotSaveException
+     * Save employee (Create / Update)
      */
-    public function save(
-        EmployeeInterface $employee
-    ): EmployeeInterface {
+    public function save(EmployeeInterface $employee): EmployeeInterface
+    {
         try {
-            $this->resource->save($employee);
-        } catch (\Exception $e) {
-            throw new CouldNotSaveException(__($e->getMessage()));
-        }
+            $model = $this->employeeFactory->create();
 
-        return $employee;
+            if ($employee->getId()) {
+                $this->resource->load($model, $employee->getId());
+            }
+
+            $model->setData($employee->getData());
+
+            $this->resource->save($model);
+
+            return $model;
+
+        } catch (\Exception $exception) {
+            throw new CouldNotSaveException(
+                __('Could not save employee: %1', $exception->getMessage())
+            );
+        }
     }
 
     /**
      * Update employee by ID
-     *
-     * @param int $entityId
-     * @param EmployeeInterface $employee
-     * @return EmployeeInterface
-     * @throws NoSuchEntityException
-     * @throws CouldNotSaveException
      */
-    public function update(
-        int $entityId,
-        EmployeeInterface $employee
-    ): EmployeeInterface {
+    public function update(int $entityId, EmployeeInterface $employee): EmployeeInterface
+    {
         try {
-            $existingEmployee = $this->getById($entityId);
+            $model = $this->employeeFactory->create();
 
-            $existingEmployee->setName(
-                $employee->getName()
-            );
-            $existingEmployee->setGender(
-                $employee->getGender()
-            );
-            $existingEmployee->setDesignation(
-                $employee->getDesignation()
-            );
-            $existingEmployee->setJoiningDate(
-                $employee->getJoiningDate()
-            );
-            $existingEmployee->setAddress(
-                $employee->getAddress()
-            );
-            $existingEmployee->setStatus(
-                $employee->getStatus()
-            );
-            $existingEmployee->setHobbies(
-                $employee->getHobbies()
-            );
+            $this->resource->load($model, $entityId);
 
-            $this->resource->save($existingEmployee);
+            if (!$model->getId()) {
+                throw new NoSuchEntityException(
+                    __('Employee with ID %1 does not exist.', $entityId)
+                );
+            }
 
-        } catch (NoSuchEntityException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            throw new CouldNotSaveException(__($e->getMessage()));
+            $model->setData($employee->getData());
+
+            $this->resource->save($model);
+
+            return $model;
+
+        } catch (\Exception $exception) {
+            throw new CouldNotSaveException(
+                __('Could not update employee: %1', $exception->getMessage())
+            );
         }
-
-        return $existingEmployee;
     }
 
     /**
      * Get employee by ID
-     *
-     * @param int $entityId
-     * @return EmployeeInterface
-     * @throws NoSuchEntityException
      */
     public function getById(int $entityId): EmployeeInterface
     {
@@ -135,10 +99,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
         if (!$employee->getId()) {
             throw new NoSuchEntityException(
-                __(
-                    'Employee with ID %1 does not exist.',
-                    $entityId
-                )
+                __('Employee with ID %1 does not exist.', $entityId)
             );
         }
 
@@ -146,30 +107,34 @@ class EmployeeRepository implements EmployeeRepositoryInterface
     }
 
     /**
-     * Get list of all employees
-     *
-     * @return EmployeeInterface[]
+     * Get list of employees
      */
     public function getList(): array
     {
         $collection = $this->collectionFactory->create();
-        $collection->setOrder('entity_id', 'ASC');
-        return array_values($collection->getItems());
+
+        return $collection->getItems(); // returns array of models
     }
 
     /**
-     * Delete employee
-     *
-     * @param EmployeeInterface $employee
-     * @return bool
-     * @throws CouldNotDeleteException
+     * Delete employee (by object)
      */
     public function delete(EmployeeInterface $employee): bool
     {
         try {
-            $this->resource->delete($employee);
-        } catch (\Exception $e) {
-            throw new CouldNotDeleteException(__($e->getMessage()));
+            $model = $this->employeeFactory->create();
+            $this->resource->load($model, $employee->getId());
+
+            if (!$model->getId()) {
+                throw new NoSuchEntityException(__('Employee does not exist.'));
+            }
+
+            $this->resource->delete($model);
+
+        } catch (\Exception $exception) {
+            throw new CouldNotDeleteException(
+                __('Could not delete employee: %1', $exception->getMessage())
+            );
         }
 
         return true;
@@ -177,14 +142,26 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
     /**
      * Delete employee by ID
-     *
-     * @param int $entityId
-     * @return bool
-     * @throws NoSuchEntityException
-     * @throws CouldNotDeleteException
      */
     public function deleteById(int $entityId): bool
     {
-        return $this->delete($this->getById($entityId));
+        $employee = $this->employeeFactory->create();
+        $this->resource->load($employee, $entityId);
+
+        if (!$employee->getId()) {
+            throw new NoSuchEntityException(
+                __('Employee with ID %1 does not exist.', $entityId)
+            );
+        }
+
+        try {
+            $this->resource->delete($employee);
+        } catch (\Exception $exception) {
+            throw new CouldNotDeleteException(
+                __('Could not delete employee: %1', $exception->getMessage())
+            );
+        }
+
+        return true;
     }
 }
