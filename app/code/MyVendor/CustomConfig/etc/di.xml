@@ -27,10 +27,4 @@
             <argument name="cacheId" xsi:type="string">welcome_messages</argument>
         </arguments>
     </type>
-
-     <type name="Magento\Customer\Api\CustomerRepositoryInterface">
-    <plugin name="myvendor_customer_save_plugin" 
-            type="MyVendor\CustomConfig\Plugin\CustomerSavePlugin"/>
-</type>
-
 </config>
