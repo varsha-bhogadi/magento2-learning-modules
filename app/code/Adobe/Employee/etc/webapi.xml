@@ -12,7 +12,7 @@
     <route url="/V1/employee/:entityId" method="GET">
         <service class="Adobe\Employee\Api\EmployeeRepositoryInterface" method="getById"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="self"/>
         </resources>
     </route>
 
@@ -20,7 +20,7 @@
     <route url="/V1/employee" method="POST">
         <service class="Adobe\Employee\Api\EmployeeRepositoryInterface" method="save"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="self"/>
         </resources>
     </route>
 
@@ -28,7 +28,7 @@
     <route url="/V1/employee/:entityId" method="PUT">
         <service class="Adobe\Employee\Api\EmployeeRepositoryInterface" method="update"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="self"/>
         </resources>
     </route>
 
@@ -36,7 +36,7 @@
     <route url="/V1/employee/:entityId" method="DELETE">
         <service class="Adobe\Employee\Api\EmployeeRepositoryInterface" method="deleteById"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="self"/>
         </resources>
     </route>
 

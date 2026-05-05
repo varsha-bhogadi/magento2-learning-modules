@@ -8,9 +8,6 @@ declare(strict_types=1);
 
 namespace Adobe\Employee\Api;
 
-/**
- * Employee Repository Interface
- */
 interface EmployeeRepositoryInterface
 {
     /**

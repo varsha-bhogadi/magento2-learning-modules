@@ -11,25 +11,34 @@ namespace Adobe\Employee\Model\Resolver;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
-use Adobe\Employee\Model\EmployeeFactory;
-use Adobe\Employee\Model\ResourceModel\Employee;
+use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Adobe\Employee\Api\EmployeeRepositoryInterface;
 
 /**
  * Resolver for fetching employee by ID
  */
 class EmployeeById implements ResolverInterface
 {
-    private EmployeeFactory $employeeFactory;
-    private Employee $resource;
+    /**
+     * @var EmployeeRepositoryInterface
+     */
+    private EmployeeRepositoryInterface $employeeRepository;
 
+    /**
+     * Constructor
+     *
+     * @param EmployeeRepositoryInterface $employeeRepository
+     */
     public function __construct(
-        EmployeeFactory $employeeFactory,
-        Employee $resource
+        EmployeeRepositoryInterface $employeeRepository
     ) {
-        $this->employeeFactory = $employeeFactory;
-        $this->resource = $resource;
+        $this->employeeRepository = $employeeRepository;
     }
 
+    /**
+     * Resolve method
+     */
     public function resolve(
         $field,
         $context,
@@ -37,16 +46,34 @@ class EmployeeById implements ResolverInterface
         ?array $value = null,
         ?array $args = null
     ): array {
-        $employee = $this->employeeFactory->create();
-        $this->resource->load($employee, (int)$args['id']);
 
-        if (!$employee->getId()) {
+        // Authentication check
+        if (!$context->getUserId()) {
+            throw new GraphQlAuthorizationException(__('Customer not authorized.'));
+        }
+
+        // Validate ID
+        if (empty($args['id'])) {
+            throw new GraphQlInputException(__('Employee ID is required.'));
+        }
+
+        try {
+            // Fetch using repository
+            $employee = $this->employeeRepository->getById((int)$args['id']);
+        } catch (\Exception $e) {
             throw new GraphQlNoSuchEntityException(__('Employee not found.'));
         }
 
-
-        $data = $employee->getData();
-        $data['id'] = $employee->getId();
-        return $data;
+        // Return clean response
+        return [
+            'id' => (int)$employee->getId(),
+            'name' => $employee->getName(),
+            'gender' => $employee->getGender(),
+            'designation' => $employee->getDesignation(),
+            'joining_date' => $employee->getJoiningDate(),
+            'address' => $employee->getAddress(),
+            'status' => (int)$employee->getStatus(),
+            'hobbies' => $employee->getHobbies()
+        ];
     }
 }
