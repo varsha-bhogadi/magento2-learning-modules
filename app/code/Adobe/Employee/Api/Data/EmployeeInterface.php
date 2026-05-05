@@ -8,9 +8,6 @@ declare(strict_types=1);
 
 namespace Adobe\Employee\Api\Data;
 
-/**
- * Employee Interface
- */
 interface EmployeeInterface
 {
     /**

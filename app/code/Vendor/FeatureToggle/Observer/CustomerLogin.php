@@ -29,7 +29,7 @@ class CustomerLogin implements ObserverInterface
         
         $this->logger->info('========================================');
         $this->logger->info(
-            'FeatureToggle: Customer logged in - ID: ' . $customer->getId() . 
+            'FeatureToggle: Customer logged in - ID: ' . $customer->getId() .
             ' Email: ' . $customer->getEmail()
         );
         $this->logger->info('========================================');

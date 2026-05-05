@@ -16,9 +16,6 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 
-/**
- * Employee Repository
- */
 class EmployeeRepository implements EmployeeRepositoryInterface
 {
     private ResourceEmployee $resource;

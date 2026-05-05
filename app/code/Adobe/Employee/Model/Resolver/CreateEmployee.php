@@ -10,25 +10,49 @@ namespace Adobe\Employee\Model\Resolver;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
-use Adobe\Employee\Model\EmployeeFactory;
-use Adobe\Employee\Model\ResourceModel\Employee;
+use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
+use Adobe\Employee\Api\EmployeeRepositoryInterface;
+use Adobe\Employee\Api\Data\EmployeeInterfaceFactory;
 
 /**
  * Resolver for creating employee
  */
 class CreateEmployee implements ResolverInterface
 {
-    private EmployeeFactory $employeeFactory;
-    private Employee $resource;
+    /**
+     * @var EmployeeRepositoryInterface
+     */
+    private EmployeeRepositoryInterface $employeeRepository;
 
+    /**
+     * @var EmployeeInterfaceFactory
+     */
+    private EmployeeInterfaceFactory $employeeFactory;
+
+    /**
+     * Constructor
+     *
+     * @param EmployeeRepositoryInterface $employeeRepository
+     * @param EmployeeInterfaceFactory $employeeFactory
+     */
     public function __construct(
-        EmployeeFactory $employeeFactory,
-        Employee $resource
+        EmployeeRepositoryInterface $employeeRepository,
+        EmployeeInterfaceFactory $employeeFactory
     ) {
+        $this->employeeRepository = $employeeRepository;
         $this->employeeFactory = $employeeFactory;
-        $this->resource = $resource;
     }
 
+    /**
+     * Resolve method
+     *
+     * @param mixed $field
+     * @param mixed $context
+     * @param ResolveInfo $info
+     * @param array|null $value
+     * @param array|null $args
+     * @return array
+     */
     public function resolve(
         $field,
         $context,
@@ -36,17 +60,38 @@ class CreateEmployee implements ResolverInterface
         ?array $value = null,
         ?array $args = null
     ): array {
+
+        // Authentication check
+        if (!$context->getUserId()) {
+            throw new GraphQlAuthorizationException(__('Customer not authorized.'));
+        }
+
+        // Validation
         if (empty($args['name'])) {
             throw new GraphQlInputException(__('Name is required.'));
         }
 
+        // Create employee object
         $employee = $this->employeeFactory->create();
-        $employee->setData($args);
 
-        $this->resource->save($employee);
+        // Set data
+        foreach ($args as $key => $value) {
+            $employee->setData($key, $value);
+        }
 
-        $data = $employee->getData();
-        $data['id'] = $employee->getId();
-        return $data;
+        // Save using Repository
+        $savedEmployee = $this->employeeRepository->save($employee);
+
+        // Return response (clean)
+        return [
+            'id' => (int)$savedEmployee->getId(),
+            'name' => $savedEmployee->getName(),
+            'gender' => $savedEmployee->getGender(),
+            'designation' => $savedEmployee->getDesignation(),
+            'joining_date' => $savedEmployee->getJoiningDate(),
+            'address' => $savedEmployee->getAddress(),
+            'status' => (int)$savedEmployee->getStatus(),
+            'hobbies' => $savedEmployee->getHobbies()
+        ];
     }
 }

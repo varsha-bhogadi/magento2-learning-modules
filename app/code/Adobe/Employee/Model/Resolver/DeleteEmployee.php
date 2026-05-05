@@ -10,25 +10,34 @@ namespace Adobe\Employee\Model\Resolver;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
-use Adobe\Employee\Model\EmployeeFactory;
-use Adobe\Employee\Model\ResourceModel\Employee;
+use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Adobe\Employee\Api\EmployeeRepositoryInterface;
 
 /**
  * Resolver for deleting employee
  */
 class DeleteEmployee implements ResolverInterface
 {
-    private EmployeeFactory $employeeFactory;
-    private Employee $resource;
+    /**
+     * @var EmployeeRepositoryInterface
+     */
+    private EmployeeRepositoryInterface $employeeRepository;
 
+    /**
+     * Constructor
+     *
+     * @param EmployeeRepositoryInterface $employeeRepository
+     */
     public function __construct(
-        EmployeeFactory $employeeFactory,
-        Employee $resource
+        EmployeeRepositoryInterface $employeeRepository
     ) {
-        $this->employeeFactory = $employeeFactory;
-        $this->resource = $resource;
+        $this->employeeRepository = $employeeRepository;
     }
 
+    /**
+     * Resolve method
+     */
     public function resolve(
         $field,
         $context,
@@ -36,14 +45,23 @@ class DeleteEmployee implements ResolverInterface
         ?array $value = null,
         ?array $args = null
     ): bool {
-        $employee = $this->employeeFactory->create();
-        $this->resource->load($employee, (int)$args['id']);
 
-        if (!$employee->getId()) {
-            throw new GraphQlNoSuchEntityException(__('Employee not found.'));
+        // Authentication check
+        if (!$context->getUserId()) {
+            throw new GraphQlAuthorizationException(__('Customer not authorized.'));
         }
 
-        $this->resource->delete($employee);
+        // Validate ID
+        if (empty($args['id'])) {
+            throw new GraphQlInputException(__('Employee ID is required.'));
+        }
+
+        try {
+            // Delete using repository
+            $this->employeeRepository->deleteById((int)$args['id']);
+        } catch (\Exception $e) {
+            throw new GraphQlNoSuchEntityException(__('Employee not found.'));
+        }
 
         return true;
     }

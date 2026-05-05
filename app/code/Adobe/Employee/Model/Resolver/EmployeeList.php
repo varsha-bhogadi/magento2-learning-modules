@@ -10,6 +10,7 @@ namespace Adobe\Employee\Model\Resolver;
 
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Adobe\Employee\Model\ResourceModel\Employee\CollectionFactory;
 
 /**
@@ -35,13 +36,6 @@ class EmployeeList implements ResolverInterface
 
     /**
      * Resolve employee list
-     *
-     * @param mixed $field
-     * @param mixed $context
-     * @param ResolveInfo $info
-     * @param array|null $value
-     * @param array|null $args
-     * @return array
      */
     public function resolve(
         $field,
@@ -50,17 +44,28 @@ class EmployeeList implements ResolverInterface
         ?array $value = null,
         ?array $args = null
     ): array {
+
+        // Authentication check
+        if (!$context->getUserId()) {
+            throw new GraphQlAuthorizationException(__('Customer not authorized.'));
+        }
+
+        // Get collection
         $collection = $this->collectionFactory->create();
 
         $employees = [];
 
         foreach ($collection as $item) {
-            $data = $item->getData();
-
-            // Map entity_id → id (GraphQL requirement)
-            $data['id'] = (int) $item->getId();
-
-            $employees[] = $data;
+            $employees[] = [
+                'id' => (int)$item->getId(),
+                'name' => $item->getName(),
+                'gender' => $item->getGender(),
+                'designation' => $item->getDesignation(),
+                'joining_date' => $item->getJoiningDate(),
+                'address' => $item->getAddress(),
+                'status' => (int)$item->getStatus(),
+                'hobbies' => $item->getHobbies()
+            ];
         }
 
         return $employees;
