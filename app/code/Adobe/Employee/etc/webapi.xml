@@ -12,7 +12,15 @@
     <route url="/V1/employee/:entityId" method="GET">
         <service class="Adobe\Employee\Api\EmployeeRepositoryInterface" method="getById"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="Magento_Admin"/>
+        </resources>
+    </route>
+
+    <!-- GET all employee -->
+    <route url="/V1/employees" method="GET">
+        <service class="Adobe\Employee\Api\EmployeeRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Magento_Admin"/>
         </resources>
     </route>
 
@@ -20,7 +28,7 @@
     <route url="/V1/employee" method="POST">
         <service class="Adobe\Employee\Api\EmployeeRepositoryInterface" method="save"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="Magento_Admin"/>
         </resources>
     </route>
 
@@ -28,7 +36,7 @@
     <route url="/V1/employee/:entityId" method="PUT">
         <service class="Adobe\Employee\Api\EmployeeRepositoryInterface" method="update"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="Magento_Admin"/>
         </resources>
     </route>
 
@@ -36,7 +44,7 @@
     <route url="/V1/employee/:entityId" method="DELETE">
         <service class="Adobe\Employee\Api\EmployeeRepositoryInterface" method="deleteById"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="Magento_Admin"/>
         </resources>
     </route>
 
