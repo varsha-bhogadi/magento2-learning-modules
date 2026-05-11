@@ -31,8 +31,8 @@ class StatusUpdateConsumer
     public function process($message): void
     {
         $this->logger->info(
-    __('Employee status updated successfully.')
-);
+            __('Employee status updated successfully.')
+        );
         $this->logger->info(
             print_r($message, true)
         );
