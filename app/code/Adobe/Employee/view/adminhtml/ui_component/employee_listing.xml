@@ -60,6 +60,7 @@
     </listingToolbar>
 
     <massaction name="listing_massaction">
+
         <action name="delete">
             <settings>
                 <confirm>
@@ -73,6 +74,27 @@
                 <label translate="true">Delete</label>
             </settings>
         </action>
+
+        <action name="status_active">
+            <settings>
+                <url path="employee/employee/massStatus">
+                    <param name="status">1</param>
+                </url>
+                <type>status_active</type>
+                <label translate="true">Set Active</label>
+            </settings>
+        </action>
+
+        <action name="status_inactive">
+            <settings>
+                <url path="employee/employee/massStatus">
+                    <param name="status">0</param>
+                </url>
+                <type>status_inactive</type>
+                <label translate="true">Set Inactive</label>
+            </settings>
+        </action>
+
     </massaction>
 
     <columns name="employee_columns">

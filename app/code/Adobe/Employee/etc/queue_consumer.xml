@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Adobe. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/consumer.xsd">
+
+    <consumer name="employee.status.consumer"
+              queue="employee.status.queue"
+              connection="amqp"
+              handler="Adobe\Employee\Model\Consumer\StatusUpdateConsumer::process"/>
+</config>
