@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Adobe. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+
+    <system>
+
+        <section id="employee"
+                 translate="label"
+                 sortOrder="900"
+                 showInDefault="1"
+                 showInWebsite="1"
+                 showInStore="1">
+
+            <label>Employee Settings</label>
+
+            <tab>general</tab>
+
+            <resource>Adobe_Employee::manage_employee</resource>
+
+            <group id="cron"
+                   translate="label"
+                   sortOrder="10"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+
+                <label>Cron Configuration</label>
+
+                <field id="enable"
+                       translate="label"
+                       type="select"
+                       sortOrder="10"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+
+                    <label>Enable Auto Delete</label>
+
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+
+                </field>
+
+                <field id="delete_days"
+                       translate="label"
+                       type="text"
+                       sortOrder="20"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+
+                    <label>Delete Employees Older Than (Days)</label>
+
+                    <validate>required-entry validate-number validate-greater-than-zero</validate>
+
+                </field>
+
+            </group>
+
+        </section>
+
+    </system>
+
+</config>
